@@ -1,19 +1,20 @@
-import { Box, Wrap } from '@chakra-ui/react';
+import { Wrap } from '@chakra-ui/react';
+import LibraryItem from '../LibraryItem';
+import Library from '@/types/library';
 
-const LibraryList = () => {
+type Props = {
+  libraries:Array<Library>;
+};
+const LibraryList = ({libraries}:Props) => {
+
+ 
+   
   return (
     <Wrap gap={['12px', '24px']} justify={['center', 'flex-start']}>
-      <Box h='12' w='12' backgroundColor={'red'} />
-      <Box h='12' w='12' backgroundColor={'red'} />
-      <Box h='12' w='12' />
-      <Box h='12' w='12' />
-      <Box h='12' w='12' />
-      <Box h='12' w='12' />
-      <Box h='12' w='12' />
-      <Box h='12' w='12' />
-      <Box h='12' w='12' />
-      <Box h='12' w='12' />
-      <Box h='12' w='12' />
+      {libraries.map(library => (
+        <LibraryItem key={library.id} library={library}/>)
+      )
+    }
     </Wrap>
   );
 };

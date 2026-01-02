@@ -1,12 +1,12 @@
-import LibraryList from '@/components/LibraryList';
-import { Flex } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const App = () => {
-  return (
-    <Flex>
-      <LibraryList />
-    </Flex>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/libraries');
+  }, [router]);
 };
 
 export default App;
