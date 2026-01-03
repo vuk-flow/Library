@@ -7,7 +7,7 @@ const libraryRouter = Router();
 libraryRouter.get('/', async (req: Request, res: Response) => {
   try {
     const libraries = await prisma.library.findMany();
-    res.json(libraries);
+    res.json(libraries).status(200);
   } catch (err) {
     console.error({ err });
     res.status(500).json({ error: 'Internal server error' });
