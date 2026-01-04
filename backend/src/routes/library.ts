@@ -20,7 +20,6 @@ libraryRouter.post('/add-library', async (req:Request, res: Response) => {
 
   try {
     const result = await prisma.library.create({
-      // todo : TIPIZIRAJ DATA
       data: {
         name,
         address
@@ -35,7 +34,8 @@ libraryRouter.post('/add-library', async (req:Request, res: Response) => {
 })
 libraryRouter.delete('/delete-library/:id', async (req:Request, res: Response) => {
 
-  const id = req.params;
+   const { id } = req.params;
+
 
   try {
     const result = await prisma.library.delete({

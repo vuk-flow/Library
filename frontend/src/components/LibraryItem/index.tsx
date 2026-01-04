@@ -1,14 +1,28 @@
 import { Flex, Spacer, Text } from '@chakra-ui/react';
 import { CustomButton } from '../Button';
 import Library from '@/types/library';
-import { ModalType } from '@/types/modals';
+import { ModalType, modalTypes } from '@/types/modals';
+import DeleteLibraryForm from '../DeleteLibraryModal';
+import DeleteLibraryModal from '../DeleteLibraryModal';
+import AddLibraryModal from '../AddLibraryModal';
+import { useModalStore } from '@/store/modalStore';
+import { useState } from 'react';
 
 type Props = {
   library: Library;
   toggleModal: () => void;
   changeModalType: (modalType: ModalType) => void;
 };
+
 const LibraryItem = ({ library, toggleModal, changeModalType }: Props) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const toggleDeleteModal = () => {
+    setIsOpen((isOpen) => !isOpen);
+  };
+
+  const { modalType } = useModalStore();
+
   return (
     <Flex
       flexDir={'column'}
@@ -40,13 +54,21 @@ const LibraryItem = ({ library, toggleModal, changeModalType }: Props) => {
           size={'sm'}
           variant={'delete'}
           onClick={() => {
-            toggleModal();
+            toggleDeleteModal();
             changeModalType('DELETE_LIBRARY');
           }}
         >
           Delete
         </CustomButton>
       </Flex>
+      {modalType === modalTypes.DELETE_LIBRARY && (
+        <DeleteLibraryForm
+          id={library.id}
+          isOpen={isOpen}
+          toggleDeleteModal={toggleDeleteModal}
+          type={modalTypes.DELETE_LIBRARY}
+        />
+      )}
     </Flex>
   );
 };

@@ -1,30 +1,28 @@
 import { CustomButton } from '@/components/Button';
 import LibraryList from '@/components/LibraryList';
-import Modal from '@/components/Modal';
+import Modal from '@/components/AddLibraryModal';
 import NotFoundComponent from '@/components/NotFound';
 import Library from '@/types/library';
 import { Methods } from '@/types/methods';
-import { ModalType } from '@/types/modals';
+import { ModalType, modalTypes } from '@/types/modals';
 import ApiCaller from '@/utils/apiCaller';
 import { Flex } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
+import AddLibraryModal from '@/components/AddLibraryModal';
+import { useModalStore } from '@/store/modalStore';
 
 const Libraries = () => {
   const [libraries, setLibraries] = useState<Array<Library>>([]);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const [modalType, setModalType] = useState<ModalType | null>(null);
+  const { modalType, setModalType } = useModalStore();
 
   const toggleModal = () => {
     setIsOpen((isOpen) => !isOpen);
   };
   const changeModalType = (modalType: ModalType) => {
     setModalType(modalType);
-  };
-
-  const refreshLibraries = (data: Library) => {
-    setLibraries((prev) => [...prev, data]);
   };
 
   useEffect(() => {
@@ -69,13 +67,18 @@ const Libraries = () => {
           changeModalType={changeModalType}
         />
       )}
-
-      {modalType && (
-        <Modal
+      {modalType === modalTypes.ADD_LIBRARY && (
+        <AddLibraryModal
           isOpen={isOpen}
           toggleModal={toggleModal}
-          type={modalType satisfies ModalType}
-          refreshLibraries={refreshLibraries}
+          type={modalTypes.ADD_LIBRARY}
+        />
+      )}
+      {modalType === modalTypes.EDIT_LIBRARY && (
+        <AddLibraryModal
+          isOpen={isOpen}
+          toggleModal={toggleModal}
+          type={modalTypes.EDIT_LIBRARY}
         />
       )}
     </Flex>

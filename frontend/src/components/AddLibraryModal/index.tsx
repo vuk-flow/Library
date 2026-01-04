@@ -2,23 +2,52 @@ import {
   Box,
   CloseButton,
   Dialog,
-  Flex,
+  Field,
+  Input,
   Portal,
-  Spacer,
+  Stack,
 } from '@chakra-ui/react';
 import { CustomButton } from '../Button';
 import { allModals, ModalType } from '@/types/modals';
+import { useForm } from 'react-hook-form';
+import RequestBody from '@/types/body';
 import Library from '@/types/library';
+import { Methods } from '@/types/methods';
+import ApiCaller from '@/utils/apiCaller';
 
 type Props = {
   isOpen: boolean;
   type: ModalType;
   toggleModal: () => void;
-  refreshLibraries: (data: Library) => void;
 };
 
-const Modal = ({ isOpen, type, toggleModal, refreshLibraries }: Props) => {
-  const Form = allModals[type].form;
+type FormValues = {
+  name: string;
+  address: string;
+};
+
+const AddLibrary = async (data: RequestBody) => {
+  try {
+    const response = await ApiCaller(
+      'libraries/add-library',
+      Methods.POST,
+      data,
+    );
+
+    const library: Library = response?.data satisfies Library;
+
+    return library;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const AddLibraryModal = ({ isOpen, type, toggleModal }: Props) => {
+  const { register, handleSubmit } = useForm<FormValues>();
+
+  const onSubmit = handleSubmit(async (data) => {
+    await AddLibrary(data);
+  });
 
   return (
     <Dialog.Root size={'sm'} open={isOpen} placement={'center'} closeOnEscape>
@@ -42,7 +71,21 @@ const Modal = ({ isOpen, type, toggleModal, refreshLibraries }: Props) => {
               gap={'20px'}
             >
               <Box>{allModals[type].text}</Box>
-              <Form refreshLibraries={refreshLibraries} />
+              <form onSubmit={onSubmit}>
+                <Stack gap="4" align="flex-start">
+                  <Field.Root>
+                    <Field.Label>Name</Field.Label>
+                    <Input {...register('name')} />
+                  </Field.Root>
+                  <Field.Root>
+                    <Field.Label>Address</Field.Label>
+                    <Input {...register('address')} />
+                  </Field.Root>
+                  <CustomButton variant={'add'} size={'md'} type="submit">
+                    Submit
+                  </CustomButton>
+                </Stack>
+              </form>
             </Dialog.Body>
             <Dialog.Footer display={'flex'} gap={'20px'} width={'100%'}>
               <Dialog.ActionTrigger asChild>
@@ -62,4 +105,4 @@ const Modal = ({ isOpen, type, toggleModal, refreshLibraries }: Props) => {
   );
 };
 
-export default Modal;
+export default AddLibraryModal;
