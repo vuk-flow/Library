@@ -33,5 +33,22 @@ libraryRouter.post('/add-library', async (req:Request, res: Response) => {
     res.status(500).json({ error: `Internal server error ${err}` });
   }
 })
+libraryRouter.delete('/delete-library/:id', async (req:Request, res: Response) => {
+
+  const id = req.params;
+
+  try {
+    const result = await prisma.library.delete({
+      where: {
+        id: String(id)
+      }
+    });
+
+    res.status(200).json(result);
+  } catch (err) {
+    console.error({ err });
+    res.status(500).json({ error: `Internal server error ${err}` });
+  }
+})
 
 export default libraryRouter;

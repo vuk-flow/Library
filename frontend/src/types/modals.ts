@@ -1,13 +1,15 @@
 import AddLibraryForm from '@/components/AddLibraryForm';
 import React from 'react';
+import Library from './library';
+import DeleteLibraryForm from '@/components/DeleteLibraryModal';
 
-export const modalType = {
+export const modalTypes = {
   ADD_LIBRARY: 'ADD_LIBRARY',
   DELETE_LIBRARY: 'DELETE_LIBRARY',
   EDIT_LIBRARY: 'EDIT_LIBRARY',
 } as const;
 
-export type ModalType = (typeof modalType)[keyof typeof modalType];
+export type ModalType = (typeof modalTypes)[keyof typeof modalTypes];
 
 export const modalText = {
   DELETE_LIBRARY: 'Are you sure you want to delete data?',
@@ -25,8 +27,14 @@ export const modalTitle = {
 
 export type ModalTitle = (typeof modalTitle)[keyof typeof modalTitle];
 
+type FormProps = {
+  ADD_LIBRARY: { refreshLibraries: (data: Library) => void };
+  EDIT_LIBRARY: {};
+  DELETE_LIBRARY: { refreshLibraries: (data: Library) => void };
+};
+
 export type ModalForm = {
-  [K in ModalType]: React.FC;
+  [K in ModalType]: React.FC<FormProps[K]>;
 };
 
 const dummy = () => {
@@ -35,31 +43,31 @@ const dummy = () => {
 const modalForm: ModalForm = {
   ADD_LIBRARY: AddLibraryForm,
   EDIT_LIBRARY: dummy,
-  DELETE_LIBRARY: dummy,
+  DELETE_LIBRARY: DeleteLibraryForm,
 };
 
-export type ModalInfo = {
+export type ModalInfo<K extends ModalType = ModalType> = {
   text: ModalText;
   title: ModalTitle;
-  form: React.FC;
+  form: ModalForm[K];
 };
 
 export type AllModals = {
-  [K in ModalType]: ModalInfo;
+  [K in ModalType]: ModalInfo<K>;
 };
 
 export const allModals: AllModals = {
-  [modalType.ADD_LIBRARY]: {
+  [modalTypes.ADD_LIBRARY]: {
     title: modalTitle.ADD_LIBRARY,
     text: modalText.ADD_LIBRARY,
     form: modalForm.ADD_LIBRARY,
   },
-  [modalType.EDIT_LIBRARY]: {
+  [modalTypes.EDIT_LIBRARY]: {
     title: modalTitle.EDIT_LIBRARY,
     text: modalText.EDIT_LIBRARY,
     form: modalForm.EDIT_LIBRARY,
   },
-  [modalType.DELETE_LIBRARY]: {
+  [modalTypes.DELETE_LIBRARY]: {
     title: modalTitle.DELETE_LIBRARY,
     text: modalText.DELETE_LIBRARY,
     form: modalForm.DELETE_LIBRARY,

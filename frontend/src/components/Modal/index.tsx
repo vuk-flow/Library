@@ -8,14 +8,16 @@ import {
 } from '@chakra-ui/react';
 import { CustomButton } from '../Button';
 import { allModals, ModalType } from '@/types/modals';
+import Library from '@/types/library';
 
 type Props = {
   isOpen: boolean;
   type: ModalType;
   toggleModal: () => void;
+  refreshLibraries: (data: Library) => void;
 };
 
-const Modal = ({ isOpen, type, toggleModal }: Props) => {
+const Modal = ({ isOpen, type, toggleModal, refreshLibraries }: Props) => {
   const Form = allModals[type].form;
 
   return (
@@ -40,7 +42,7 @@ const Modal = ({ isOpen, type, toggleModal }: Props) => {
               gap={'20px'}
             >
               <Box>{allModals[type].text}</Box>
-              <Form />
+              <Form refreshLibraries={refreshLibraries} />
             </Dialog.Body>
             <Dialog.Footer display={'flex'} gap={'20px'} width={'100%'}>
               <Dialog.ActionTrigger asChild>

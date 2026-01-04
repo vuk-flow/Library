@@ -11,6 +11,8 @@ const ApiCaller = async (url: string, method: string, body?: RequestBody) => {
     result = await axios.get(`${urlBase}${url}`);
   } else if (method === Methods.POST) {
     result = await axios.post(`${urlBase}${url}`, body);
+  } else if (method === Methods.DELETE) {
+    result = await axios.delete(`${urlBase}${url}`);
   }
   return result;
 };

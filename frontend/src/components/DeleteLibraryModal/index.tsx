@@ -6,18 +6,13 @@ import { Methods } from '@/types/methods';
 import RequestBody from '@/types/body';
 import Library from '@/types/library';
 
-type FormValues = {
-  name: string;
-  address: string;
+type FormDta = {
+  id: number;
 };
 
-const AddLibrary = async (data: RequestBody) => {
+const DeleteLibrary = async (id: FormData) => {
   try {
-    const response = await ApiCaller(
-      'libraries/add-library',
-      Methods.POST,
-      data,
-    );
+    const response = await ApiCaller('libraries/add-library', Methods.DELETE);
 
     const library: Library = response?.data satisfies Library;
 
@@ -31,11 +26,11 @@ type Props = {
   refreshLibraries: (data: Library) => void;
 };
 
-const AddLibraryForm = ({ refreshLibraries }: Props) => {
-  const { register, handleSubmit } = useForm<FormValues>();
+const DeleteLibraryForm = ({ refreshLibraries }: Props) => {
+  const { handleSubmit } = useForm<FormData>();
 
   const onSubmit = handleSubmit(async (data) => {
-    const result = await AddLibrary(data);
+    const result = await DeleteLibrary(data);
 
     const library = result;
 
@@ -45,14 +40,6 @@ const AddLibraryForm = ({ refreshLibraries }: Props) => {
   return (
     <form onSubmit={onSubmit}>
       <Stack gap="4" align="flex-start">
-        <Field.Root>
-          <Field.Label>Name</Field.Label>
-          <Input {...register('name')} />
-        </Field.Root>
-        <Field.Root>
-          <Field.Label>Address</Field.Label>
-          <Input {...register('address')} />
-        </Field.Root>
         <CustomButton variant={'add'} size={'md'} type="submit">
           Submit
         </CustomButton>
@@ -61,4 +48,4 @@ const AddLibraryForm = ({ refreshLibraries }: Props) => {
   );
 };
 
-export default AddLibraryForm;
+export default DeleteLibraryForm;

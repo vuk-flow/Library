@@ -23,6 +23,10 @@ const Libraries = () => {
     setModalType(modalType);
   };
 
+  const refreshLibraries = (data: Library) => {
+    setLibraries((prev) => [...prev, data]);
+  };
+
   useEffect(() => {
     const getLibraries = async () => {
       try {
@@ -71,6 +75,7 @@ const Libraries = () => {
           isOpen={isOpen}
           toggleModal={toggleModal}
           type={modalType satisfies ModalType}
+          refreshLibraries={refreshLibraries}
         />
       )}
     </Flex>
