@@ -4,14 +4,15 @@ import axios from 'axios';
 
 export const urlBase = 'http://localhost:8000/';
 
-const ApiCaller = async (url:string, method:string, body?:RequestBody) => {
+const ApiCaller = async (url: string, method: string, body?: RequestBody) => {
+  let result = null;
 
-    let result = null;
-
-    if (method === Methods.GET){
-        result = await axios.get(`${urlBase}${url}`);
-    }
-    return result;
+  if (method === Methods.GET) {
+    result = await axios.get(`${urlBase}${url}`);
+  } else if (method === Methods.POST) {
+    result = await axios.post(`${urlBase}${url}`, body);
+  }
+  return result;
 };
 
 export default ApiCaller;

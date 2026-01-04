@@ -1,14 +1,14 @@
 import { Flex, Spacer, Text } from '@chakra-ui/react';
 import { CustomButton } from '../Button';
 import Library from '@/types/library';
-import { ModalTexts, ModalTitles } from '@/types/modals';
+import { ModalType } from '@/types/modals';
 
 type Props = {
   library: Library;
   toggleModal: () => void;
-  chnageModalInfo: (text: string, title: string) => void;
+  changeModalType: (modalType: ModalType) => void;
 };
-const LibraryItem = ({ library, toggleModal, chnageModalInfo }: Props) => {
+const LibraryItem = ({ library, toggleModal, changeModalType }: Props) => {
   return (
     <Flex
       flexDir={'column'}
@@ -31,7 +31,7 @@ const LibraryItem = ({ library, toggleModal, chnageModalInfo }: Props) => {
           variant={'edit'}
           onClick={() => {
             toggleModal();
-            chnageModalInfo(ModalTexts.EDIT, ModalTitles.EDIT);
+            changeModalType('EDIT_LIBRARY');
           }}
         >
           Edit
@@ -41,7 +41,7 @@ const LibraryItem = ({ library, toggleModal, chnageModalInfo }: Props) => {
           variant={'delete'}
           onClick={() => {
             toggleModal();
-            chnageModalInfo(ModalTexts.DELETE, ModalTexts.DELETE);
+            changeModalType('DELETE_LIBRARY');
           }}
         >
           Delete

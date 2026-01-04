@@ -4,23 +4,23 @@ import Modal from '@/components/Modal';
 import NotFoundComponent from '@/components/NotFound';
 import Library from '@/types/library';
 import { Methods } from '@/types/methods';
-import { ModalTexts, ModalTitles } from '@/types/modals';
+import { ModalType } from '@/types/modals';
 import ApiCaller from '@/utils/apiCaller';
 import { Flex } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 
 const Libraries = () => {
   const [libraries, setLibraries] = useState<Array<Library>>([]);
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [text, setText] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
+
+  const [modalType, setModalType] = useState<ModalType | null>(null);
 
   const toggleModal = () => {
     setIsOpen((isOpen) => !isOpen);
   };
-  const changeModalInfo = (text: string, title: string) => {
-    setText(text);
-    setTitle(title);
+  const changeModalType = (modalType: ModalType) => {
+    setModalType(modalType);
   };
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const Libraries = () => {
           fontSize={'14px'}
           onClick={() => {
             toggleModal();
-            changeModalInfo(ModalTitles.ADD_LIBRARY, ModalTexts.ADD_LIBRARY);
+            changeModalType('ADD_LIBRARY');
           }}
         >
           Add library
@@ -62,15 +62,17 @@ const Libraries = () => {
         <LibraryList
           libraries={libraries}
           toggleModal={toggleModal}
-          chnageModalInfo={changeModalInfo}
+          changeModalType={changeModalType}
         />
       )}
-      <Modal
-        text={text}
-        isOpen={isOpen}
-        title={title}
-        toggleModal={toggleModal}
-      />
+
+      {modalType && (
+        <Modal
+          isOpen={isOpen}
+          toggleModal={toggleModal}
+          type={modalType satisfies ModalType}
+        />
+      )}
     </Flex>
   );
 };

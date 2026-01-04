@@ -1,13 +1,14 @@
 import { Wrap } from '@chakra-ui/react';
 import LibraryItem from '../LibraryItem';
 import Library from '@/types/library';
+import { ModalType } from '@/types/modals';
 
 type Props = {
   libraries: Array<Library>;
   toggleModal: () => void;
-  chnageModalInfo: (text: string, title: string) => void;
+  changeModalType: (modalType: ModalType) => void;
 };
-const LibraryList = ({ libraries, toggleModal, chnageModalInfo }: Props) => {
+const LibraryList = ({ libraries, toggleModal, changeModalType }: Props) => {
   return (
     <Wrap gap={['12px', '24px']} justify={['center', 'flex-start']}>
       {libraries.map((library) => (
@@ -15,7 +16,7 @@ const LibraryList = ({ libraries, toggleModal, chnageModalInfo }: Props) => {
           key={library.id}
           library={library}
           toggleModal={toggleModal}
-          chnageModalInfo={chnageModalInfo}
+          changeModalType={changeModalType}
         />
       ))}
     </Wrap>
