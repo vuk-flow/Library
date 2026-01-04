@@ -12,16 +12,7 @@ type FormValues = {
 
 const AddLibrary = async (data: RequestBody) => {
   try {
-    const response = await ApiCaller(
-      'libraries/add-library',
-      Methods.POST,
-      data,
-    );
-
-    const result = response?.data;
-    console.log({ result });
-
-    return { message: 'Library added successfully!', data: result };
+    await ApiCaller('libraries/add-library', Methods.POST, data);
   } catch (err) {
     console.error(err);
   }
@@ -30,10 +21,10 @@ const AddLibrary = async (data: RequestBody) => {
 const AddLibraryForm = () => {
   const { register, handleSubmit } = useForm<FormValues>();
 
-  const onSubmit = handleSubmit((data) => {
-    AddLibrary(data);
+  const onSubmit = handleSubmit(async (data) => {
+    await AddLibrary(data);
   });
-  // TODO: custom form, state object za formu
+
   return (
     <form onSubmit={onSubmit}>
       <Stack gap="4" align="flex-start">

@@ -24,7 +24,11 @@ const Modal = ({ isOpen, type, toggleModal }: Props) => {
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content padding={'10px'} height={'400px'}>
+          <Dialog.Content
+            padding={'10px'}
+            height={'400px'}
+            backgroundColor={'#ffffff'}
+          >
             <Dialog.Header>
               <Dialog.Title>{allModals[type].title}</Dialog.Title>
             </Dialog.Header>
