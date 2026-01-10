@@ -1,8 +1,6 @@
 import { CustomButton } from '@/components/Button';
 import LibraryList from '@/components/LibraryList';
-import Modal from '@/components/AddLibraryModal';
 import NotFoundComponent from '@/components/NotFound';
-import Library from '@/types/library';
 import { Methods } from '@/types/methods';
 import { ModalType, modalTypes } from '@/types/modals';
 import ApiCaller from '@/utils/apiCaller';
@@ -10,6 +8,8 @@ import { Flex } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import AddLibraryModal from '@/components/AddLibraryModal';
 import { useModalStore } from '@/store/modalStore';
+import DeleteLibraryModal from '@/components/DeleteLibraryModal';
+import Library from '@/types/library';
 
 const Libraries = () => {
   const [libraries, setLibraries] = useState<Array<Library>>([]);
@@ -18,11 +18,26 @@ const Libraries = () => {
 
   const { modalType, setModalType } = useModalStore();
 
-  const toggleModal = () => {
-    setIsOpen((isOpen) => !isOpen);
-  };
-  const changeModalType = (modalType: ModalType) => {
+  const [libraryId, setLibraryId] = useState<string | null>(null);
+
+  const openModal = (modalType: ModalType, id?: string) => {
+    setIsOpen(true);
     setModalType(modalType);
+    setLibraryId(id ?? null);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+    setModalType(null);
+    setLibraryId(null);
+  };
+
+  const updateLibraries = (data: Library | Array<Library>) => {
+    if (!Array.isArray(data)) {
+      setLibraries((prevLibraries) => [...prevLibraries, data]);
+    } else {
+      setLibraries(data);
+    }
   };
 
   useEffect(() => {
@@ -32,7 +47,7 @@ const Libraries = () => {
         const result = response?.data;
         setLibraries(result);
       } catch (error) {
-        console.error('Error ocurred: ', error);
+        console.error('Error ocurred while fetching all libraries: ', error);
       }
     };
     getLibraries();
@@ -51,8 +66,7 @@ const Libraries = () => {
           variant={'add'}
           fontSize={'14px'}
           onClick={() => {
-            toggleModal();
-            changeModalType('ADD_LIBRARY');
+            openModal('ADD_LIBRARY');
           }}
         >
           Add library
@@ -61,24 +75,32 @@ const Libraries = () => {
       {libraries.length === 0 ? (
         <NotFoundComponent />
       ) : (
-        <LibraryList
-          libraries={libraries}
-          toggleModal={toggleModal}
-          changeModalType={changeModalType}
-        />
+        <LibraryList libraries={libraries} openModal={openModal} />
       )}
       {modalType === modalTypes.ADD_LIBRARY && (
         <AddLibraryModal
           isOpen={isOpen}
-          toggleModal={toggleModal}
-          type={modalTypes.ADD_LIBRARY}
+          closeModal={closeModal}
+          updateLibraries={updateLibraries}
+          type={modalType}
         />
       )}
-      {modalType === modalTypes.EDIT_LIBRARY && (
-        <AddLibraryModal
+      {modalType === modalTypes.DELETE_LIBRARY && libraryId && (
+        <DeleteLibraryModal
+          id={libraryId as string}
           isOpen={isOpen}
-          toggleModal={toggleModal}
-          type={modalTypes.EDIT_LIBRARY}
+          closeModal={closeModal}
+          updateLibraries={updateLibraries}
+          type={modalType}
+        />
+      )}
+      {modalType === modalTypes.EDIT_LIBRARY && libraryId && (
+        <AddLibraryModal
+          updateLibraries={updateLibraries}
+          id={libraryId as string}
+          isOpen={isOpen}
+          closeModal={closeModal}
+          type={modalType}
         />
       )}
     </Flex>

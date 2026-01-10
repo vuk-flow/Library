@@ -5,19 +5,13 @@ import { ModalType } from '@/types/modals';
 
 type Props = {
   libraries: Array<Library>;
-  toggleModal: () => void;
-  changeModalType: (modalType: ModalType) => void;
+  openModal: (modalType: ModalType, id?: string) => void;
 };
-const LibraryList = ({ libraries, toggleModal, changeModalType }: Props) => {
+const LibraryList = ({ libraries, openModal }: Props) => {
   return (
     <Wrap gap={['12px', '24px']} justify={['center', 'flex-start']}>
       {libraries.map((library) => (
-        <LibraryItem
-          key={library.id}
-          library={library}
-          toggleModal={toggleModal}
-          changeModalType={changeModalType}
-        />
+        <LibraryItem key={library.id} library={library} openModal={openModal} />
       ))}
     </Wrap>
   );
