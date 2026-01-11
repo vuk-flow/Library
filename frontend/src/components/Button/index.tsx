@@ -12,6 +12,7 @@ export const buttonRecipe = defineRecipe({
       edit: {
         backgroundColor: '#79ccd4',
         color: '#ffffff',
+        width: '60px',
       },
       delete: {
         backgroundColor: '#e8173d',
@@ -22,33 +23,39 @@ export const buttonRecipe = defineRecipe({
         backgroundColor: '#42aaf5',
         color: '#ffffff',
         width: '80px',
+        height: '30px',
       },
       save: {
         backgroundColor: '#42aaf5',
         color: '#ffffff',
         width: '80px',
-        borderRadius: '10px',
       },
       close: {
         backgroundColor: '#ffffff',
         color: 'black',
         width: '100px',
         border: '1px solid black',
-        borderRadius: '10px',
+      },
+      back: {
+        backgroundColor: '#ffffff',
+        color: 'black',
+        width: '100px',
+        height: 'auto',
+        border: '1px solid #42aaf5',
+        display: 'flex',
+        padding: '2px',
       },
     },
     size: {
       sm: {
-        width: '40px',
-        height: '20px',
         borderRadius: '5px',
         fontWeight: 'normal',
+        fontSize: '14px',
       },
       md: {
-        width: '60px',
-        height: '40px',
         borderRadius: '10px',
         fontWeight: 'normal',
+        fontSize: '14px',
       },
     },
   },
