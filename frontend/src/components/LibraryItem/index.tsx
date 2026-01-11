@@ -1,14 +1,14 @@
 import { Flex, Spacer, Text } from '@chakra-ui/react';
 import { CustomButton } from '../Button';
 import Library from '@/types/library';
-import { ModalType } from '@/types/modals';
+import { ModalTexts, ModalTitles } from '@/types/modals';
 
 type Props = {
   library: Library;
-  openModal: (modalType: ModalType, id?: string) => void;
+  toggleModal: () => void;
+  chnageModalInfo: (text: string, title: string) => void;
 };
-
-const LibraryItem = ({ library, openModal }: Props) => {
+const LibraryItem = ({ library, toggleModal, chnageModalInfo }: Props) => {
   return (
     <Flex
       flexDir={'column'}
@@ -17,8 +17,8 @@ const LibraryItem = ({ library, openModal }: Props) => {
       padding={'5px'}
       border={'1px solid black'}
     >
-      <Text>Name: {library.name}</Text>
-      <Text>Address: {library.address}</Text>
+      <Text>{library.name}</Text>
+      <Text>{library.address}</Text>
       <Spacer />
       <Flex
         flexDir={'row'}
@@ -30,7 +30,8 @@ const LibraryItem = ({ library, openModal }: Props) => {
           size={'sm'}
           variant={'edit'}
           onClick={() => {
-            openModal('EDIT_LIBRARY', library.id);
+            toggleModal();
+            chnageModalInfo(ModalTexts.EDIT, ModalTitles.EDIT);
           }}
         >
           Edit
@@ -39,7 +40,8 @@ const LibraryItem = ({ library, openModal }: Props) => {
           size={'sm'}
           variant={'delete'}
           onClick={() => {
-            openModal('DELETE_LIBRARY', library.id);
+            toggleModal();
+            chnageModalInfo(ModalTexts.DELETE, ModalTexts.DELETE);
           }}
         >
           Delete

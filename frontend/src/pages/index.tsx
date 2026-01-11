@@ -5,7 +5,7 @@ const App = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/libraries');
+    router.replace('/libraries');
   }, [router]);
 };
 

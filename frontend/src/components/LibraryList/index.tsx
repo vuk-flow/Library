@@ -1,17 +1,22 @@
 import { Wrap } from '@chakra-ui/react';
 import LibraryItem from '../LibraryItem';
 import Library from '@/types/library';
-import { ModalType } from '@/types/modals';
 
 type Props = {
   libraries: Array<Library>;
-  openModal: (modalType: ModalType, id?: string) => void;
+  toggleModal: () => void;
+  chnageModalInfo: (text: string, title: string) => void;
 };
-const LibraryList = ({ libraries, openModal }: Props) => {
+const LibraryList = ({ libraries, toggleModal, chnageModalInfo }: Props) => {
   return (
     <Wrap gap={['12px', '24px']} justify={['center', 'flex-start']}>
       {libraries.map((library) => (
-        <LibraryItem key={library.id} library={library} openModal={openModal} />
+        <LibraryItem
+          key={library.id}
+          library={library}
+          toggleModal={toggleModal}
+          chnageModalInfo={chnageModalInfo}
+        />
       ))}
     </Wrap>
   );
