@@ -7,10 +7,11 @@ const app = express();
 const PORT = 8000;
 
 const corsOptions = {
-  origin:['http://localhost:3000'],
+  origin: ['http://localhost:3000'],
 };
 
 app.use(cors(corsOptions));
+app.use(express.json());
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello, TypeScript with Express!');
