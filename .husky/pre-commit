@@ -1,7 +1,6 @@
 cd frontend
 echo 'Started linter on FE...'
-npx eslint --ext .ts,.js src/ --fix
-npx prettier --write "src/**/*.tsx" "*.ts"
+npx lint-staged
 echo 'Finised linter on FE...'
 cd ../backend
 echo "Started linter on BE..."
