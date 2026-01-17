@@ -11,11 +11,32 @@ model author {
   id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name          String   @db.VarChar(100)
   country       String   @db.VarChar(100)
-  date_of_birth DateTime
+  date_of_birth DateTime @db.Date
+  books book[]
 }
 
 model library {
   id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name    String @db.VarChar(100)
   address String @unique @db.VarChar(100)
+  books book[]
+}
+
+model section {
+  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name    String @db.VarChar(100)
+  books book[]
+
+}
+
+model book {
+  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name    String @db.VarChar(100)
+  published_date DateTime @db.Date
+  author author @relation(fields: [author_id], references: [id])
+  author_id String @db.Uuid
+  section section @relation(fields: [section_id], references: [id])
+  section_id String @db.Uuid
+  library library @relation(fields: [library_id], references: [id])
+  library_id String @db.Uuid
 }
