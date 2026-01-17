@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import libraryRouter from './routes/library.js';
 import authorRouter from './routes/author.js';
 import cors from 'cors';
+import bookRouter from './routes/book.js';
 
 const app = express();
 const PORT = 8000;
@@ -19,6 +20,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/libraries', libraryRouter);
 app.use('/authors', authorRouter);
+app.use('/books', bookRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
