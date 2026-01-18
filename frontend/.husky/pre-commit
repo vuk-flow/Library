@@ -1,4 +1,1 @@
-cd frontend
-echo 'Started linter on FE...'
 npx lint-staged
-echo 'Finised linter on FE...'

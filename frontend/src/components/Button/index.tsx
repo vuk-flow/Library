@@ -21,7 +21,7 @@ export const buttonRecipe = defineRecipe({
       },
       add: {
         backgroundColor: '#42aaf5',
-        color: '#ffffff',
+        color: "#ffffff'",
         width: '80px',
         height: '30px',
       },
