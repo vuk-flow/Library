@@ -7,4 +7,13 @@ type Book = {
   library_id: string;
 };
 
+export type BookWithAllInfo = {
+  id: string;
+  name: string;
+  date_published: string;
+  author: string;
+  section: string;
+  library: string;
+};
+
 export default Book;
