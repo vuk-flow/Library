@@ -106,7 +106,7 @@ const AddLibraryModal = ({
             >
               <Box>{allModals[type].text}</Box>
               <form onSubmit={onSubmit}>
-                <Stack gap="4" align="flex-start">
+                <Stack gap='4' align='flex-start'>
                   <Field.Root>
                     <Field.Label>Name</Field.Label>
                     <Input {...register('name')} />
@@ -115,7 +115,7 @@ const AddLibraryModal = ({
                     <Field.Label>Address</Field.Label>
                     <Input {...register('address')} />
                   </Field.Root>
-                  <CustomButton variant={'add'} size={'md'} type="submit">
+                  <CustomButton variant={'add'} size={'md'} type='submit'>
                     {type === modalTypes.ADD_LIBRARY ? 'Add' : 'Edit'}
                   </CustomButton>
                 </Stack>
@@ -124,7 +124,7 @@ const AddLibraryModal = ({
             <Dialog.Footer display={'flex'} gap={'20px'} width={'100%'}>
               <Dialog.ActionTrigger asChild>
                 <CustomButton
-                  variant="close"
+                  variant='close'
                   size={'md'}
                   onClick={() => closeModal()}
                 >
@@ -134,7 +134,7 @@ const AddLibraryModal = ({
               {/* <CustomButton variant={'save'}>Save</CustomButton> */}
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>
-              <CloseButton size="sm" onClick={() => closeModal()} />
+              <CloseButton size='sm' onClick={() => closeModal()} />
             </Dialog.CloseTrigger>
           </Dialog.Content>
         </Dialog.Positioner>

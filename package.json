@@ -5,7 +5,7 @@
   "scripts": {
     "prepare": "husky",
     "lint": "eslint --ext .ts,.js .",
-    "format": "prettier --ignore-path .gitignore --write \"**/*.+(ts|json)\""
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(ts|tsx)\""
   },
   "lint-staged": {
     "frontend/src/**/.{ts,tsx}": [

@@ -2,7 +2,6 @@ import { Wrap } from '@chakra-ui/react';
 import LibraryItem from '../LibraryItem';
 import Library from '@/types/library';
 import { ModalType } from '@/types/modals';
-import Link from 'next/link';
 
 type Props = {
   libraries: Array<Library>;
