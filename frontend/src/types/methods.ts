@@ -1,9 +1,9 @@
 export const Methods = {
-    GET:'GET',
-    POST:'POST',
-    PUT:'PUT',
-    DELETE:'DELETE',
-    PATCH:'PATCH'
+  GET: 'GET',
+  POST: 'POST',
+  PUT: 'PUT',
+  DELETE: 'DELETE',
+  PATCH: 'PATCH',
 } as const;
 
-export type Method = typeof Methods[keyof typeof Methods];
+export type Method = (typeof Methods)[keyof typeof Methods];

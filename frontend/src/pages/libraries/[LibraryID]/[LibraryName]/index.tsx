@@ -17,16 +17,16 @@ const LibraryPage = () => {
     <Flex width={'100%'} height={'100%'} flexDir={'column'}>
       <Flex
         padding={'0px 20px'}
-        width="100%"
-        height="50px"
-        alignItems="center"
-        position="relative"
+        width='100%'
+        height='50px'
+        alignItems='center'
+        position='relative'
         backgroundColor={headerColor}
       >
         {/* BACK BUTTON */}
         <CustomButton
-          variant="back"
-          size="sm"
+          variant='back'
+          size='sm'
           onClick={() => {
             handleClick();
           }}
@@ -36,11 +36,11 @@ const LibraryPage = () => {
 
         {/* TITLE */}
         <Text
-          position="absolute"
-          left="50%"
-          transform="translateX(-50%)"
-          fontWeight="bold"
-          color="#ffffff"
+          position='absolute'
+          left='50%'
+          transform='translateX(-50%)'
+          fontWeight='bold'
+          color='#ffffff'
         >
           Welcome to the library {libraryName}
         </Text>

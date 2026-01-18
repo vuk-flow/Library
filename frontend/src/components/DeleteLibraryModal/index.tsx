@@ -67,8 +67,8 @@ const DeleteLibraryModal = ({
             >
               <Box>{allModals[type].text}</Box>
               <form onSubmit={onSubmit}>
-                <Stack gap="4" align="flex-start">
-                  <CustomButton variant={'delete'} size={'sm'} type="submit">
+                <Stack gap='4' align='flex-start'>
+                  <CustomButton variant={'delete'} size={'sm'} type='submit'>
                     Delete
                   </CustomButton>
                 </Stack>
@@ -76,14 +76,14 @@ const DeleteLibraryModal = ({
             </Dialog.Body>
             <Dialog.Footer display={'flex'} gap={'20px'} width={'100%'}>
               <Dialog.ActionTrigger asChild>
-                <CustomButton variant="close" onClick={() => closeModal()}>
+                <CustomButton variant='close' onClick={() => closeModal()}>
                   Cancel
                 </CustomButton>
               </Dialog.ActionTrigger>
               {/* <CustomButton variant={'save'}>Save</CustomButton> */}
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>
-              <CloseButton size="sm" onClick={() => closeModal()} />
+              <CloseButton size='sm' onClick={() => closeModal()} />
             </Dialog.CloseTrigger>
           </Dialog.Content>
         </Dialog.Positioner>

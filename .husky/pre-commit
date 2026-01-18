@@ -1,0 +1,10 @@
+cd frontend
+echo "Started to format frontend..."
+npm run format
+npm run lint
+echo "Finished to format frontend..."
+cd ../backend
+echo "Started to format backend..."
+npm run format
+npm run lint
+echo "Finished to format backend..."
