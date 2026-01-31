@@ -50,6 +50,7 @@ const BookTable = ({ books }: Props) => {
                   whiteSpace='nowrap'
                   overflow='hidden'
                   textOverflow='ellipsis'
+                  color={'white'}
                 >
                   {h.toUpperCase()}
                 </Table.ColumnHeader>
