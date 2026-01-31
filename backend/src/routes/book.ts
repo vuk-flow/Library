@@ -17,6 +17,47 @@ bookRouter.get('/', async (req: Request, res: Response) => {
   }
 });
 
+bookRouter.get('/by-library/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const result = await prisma.book.findMany({
+      where: {
+        library_id: String(id),
+      },
+      include: {
+        author: true,
+        section: true,
+        library: true,
+      },
+    });
+
+    if (result.length > 0) {
+      const booksByLibrary: Array<BookWithAllInfo> = [];
+
+      result.forEach((item) => {
+        const book: BookWithAllInfo = {
+          id: item.id,
+          name: item.name,
+          date_published: item.published_date
+            .toISOString()
+            .split('T')[0] as string,
+          section: item.section.name,
+          author: item.author.name,
+        };
+        booksByLibrary.push(book);
+      });
+
+      res.json(booksByLibrary).status(200);
+    } else {
+      res.json({ message: `The library with ${id} doesn't have books!` });
+    }
+  } catch (err) {
+    console.error({
+      error: `Error occured while getting a books by library: ${err}`,
+    });
+  }
+});
+
 bookRouter.get('/:id', async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
