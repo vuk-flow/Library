@@ -13,7 +13,7 @@ export type BookWithAllInfo = {
   date_published: string;
   author: string;
   section: string;
-  library: string;
+  library?: string;
 };
 
 export default Book;

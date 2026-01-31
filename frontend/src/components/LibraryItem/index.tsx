@@ -14,7 +14,7 @@ const LibraryItem = ({ library, openModal }: Props) => {
     <Flex
       flexDir={'column'}
       width={'200px'}
-      height={'100px'}
+      height={'150px'}
       padding={'5px'}
       border={'1px solid black'}
     >
