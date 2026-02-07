@@ -1,3 +1,4 @@
+'use client';
 import Book from '@/types/book';
 import { Table, Text, Box } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
@@ -90,7 +91,7 @@ const BookTable = ({ books }: Props) => {
                   textOverflow='ellipsis'
                   textAlign={'center'}
                 >
-                  {book.author}
+                  {book.section}
                 </Table.Cell>
                 <Table.Cell
                   padding='4px 8px'
@@ -99,7 +100,7 @@ const BookTable = ({ books }: Props) => {
                   textOverflow='ellipsis'
                   textAlign={'center'}
                 >
-                  {book.section}
+                  {book.author}
                 </Table.Cell>
               </Table.Row>
             ))}

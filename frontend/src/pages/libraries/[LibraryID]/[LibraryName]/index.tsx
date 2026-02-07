@@ -1,5 +1,6 @@
 import BookTable from '@/components/BookTable';
 import { CustomButton } from '@/components/Button';
+import FilterSection from '@/components/FilterSection/FilterSection';
 import Layout from '@/components/Layout';
 import Book from '@/types/book';
 import { Methods } from '@/types/methods';
@@ -7,35 +8,52 @@ import ApiCaller from '@/utils/apiCaller';
 import { headerColor } from '@/utils/common';
 import { Flex, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const LibraryPage = () => {
   const router = useRouter();
 
-  const [books, setBooks] = useState<Array<Book>>([]);
+  const [allBooks, setAllBooks] = useState<Array<Book>>([]);
   const libraryId = router.query.LibraryID;
 
   const libraryName = router.query.LibraryName;
+
+  const [filterValue, setFilterValue] = useState('');
 
   const handleClick = () => {
     router.push('/libraries');
   };
 
+  const handleSelectOption = (value: string) => {
+    setFilterValue(value);
+  };
+
   useEffect(() => {
-    const fetchBooksByLibrary = async () => {
+    const fetchAllBooksByLibrary = async () => {
       const result = await ApiCaller(
-        `books/by-library/${libraryId}`,
+        `books/by-library?id=${encodeURIComponent(libraryId as string)}&filter=`,
         Methods.GET,
       );
 
       const booksByLibrary: Array<Book> = result?.data;
-
-      setBooks(booksByLibrary);
+      setAllBooks(booksByLibrary);
     };
+
     if (libraryId) {
-      fetchBooksByLibrary();
+      fetchAllBooksByLibrary();
     }
   }, [libraryId]);
+
+  const filteredBooks = useMemo(() => {
+    if (!filterValue) return allBooks;
+    return allBooks.filter((book) => book.author === filterValue);
+  }, [filterValue, allBooks]);
+
+  let uniqueAuthors: Array<string> = [];
+  if (allBooks.length > 0) {
+    const authors: Array<string> = allBooks.map((book) => book.author);
+    uniqueAuthors = [...new Set(authors)];
+  }
 
   return (
     <Flex width={'100%'} height={'100%'} flexDir={'column'}>
@@ -72,10 +90,13 @@ const LibraryPage = () => {
 
       <Flex flexDir={'row'} width={'100%'} height={'100%'}>
         <Flex width={'20%'} height={'100%'} border={'2px solid green'}>
-          Sidenav
+          <FilterSection
+            authors={uniqueAuthors}
+            handleSelectOption={handleSelectOption}
+          />
         </Flex>
         <Flex width={'80%'} height={'100%'} color={'black'}>
-          <BookTable books={books}></BookTable>
+          <BookTable books={filteredBooks}></BookTable>
         </Flex>
       </Flex>
     </Flex>

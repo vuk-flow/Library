@@ -17,12 +17,18 @@ bookRouter.get('/', async (req: Request, res: Response) => {
   }
 });
 
-bookRouter.get('/by-library/:id', async (req: Request, res: Response) => {
+bookRouter.get('/by-library', async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const { id, filter } = req.query;
     const result = await prisma.book.findMany({
       where: {
         library_id: String(id),
+        ...(filter &&
+          String(filter).trim() !== '' && {
+            author: {
+              name: String(filter).trim(),
+            },
+          }),
       },
       include: {
         author: true,
