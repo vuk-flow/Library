@@ -20,6 +20,12 @@ const LibraryPage = () => {
 
   const [filterValue, setFilterValue] = useState('');
 
+  const [refresh, setRefresh] = useState<boolean>(false);
+
+  const handleRefresh = () => {
+    setRefresh((refresh) => !refresh);
+  };
+
   const handleClick = () => {
     router.push('/libraries');
   };
@@ -42,7 +48,7 @@ const LibraryPage = () => {
     if (libraryId) {
       fetchAllBooksByLibrary();
     }
-  }, [libraryId]);
+  }, [libraryId, refresh]);
 
   const filteredBooks = useMemo(() => {
     if (!filterValue) return allBooks;
@@ -96,7 +102,10 @@ const LibraryPage = () => {
           />
         </Flex>
         <Flex width={'80%'} height={'100%'} color={'black'}>
-          <BookTable books={filteredBooks}></BookTable>
+          <BookTable
+            books={filteredBooks}
+            handleRefresh={handleRefresh}
+          ></BookTable>
         </Flex>
       </Flex>
     </Flex>

@@ -99,4 +99,21 @@ bookRouter.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
+// DELETE A BOOK BY ID
+bookRouter.delete('/delete-book/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const book = await prisma.book.delete({
+      where: {
+        id: String(id),
+      },
+    });
+    res.json({ message: `The book ${book.name} has been deleted!` });
+  } catch (err) {
+    console.error({
+      error: `Error occured while deleting a book by id: ${err}`,
+    });
+  }
+});
+
 export default bookRouter;

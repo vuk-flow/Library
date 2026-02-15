@@ -2,14 +2,39 @@
 import Book from '@/types/book';
 import { Table, Text, Box } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import { CustomButton } from '../Button';
+import { useRef, useState } from 'react';
+import { useModalStore } from '@/store/modalStore';
+import { ModalType, modalTypes } from '@/types/modals';
+import DeleteBookModal from '../DeleteBookModal';
 
 type Props = {
   books: Array<Book>;
+  handleRefresh: () => void;
 };
-
-const BookTable = ({ books }: Props) => {
+// TODO: Change width od table cols!
+const BookTable = ({ books, handleRefresh }: Props) => {
   const router = useRouter();
   const libraryId = router.query.LibraryID;
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const { modalType, setModalType } = useModalStore();
+
+  const [bookID, setBookID] = useState<string | null>(null);
+
+  const openModal = (modalType: ModalType, id: string) => {
+    setIsOpen(true);
+    setModalType(modalType);
+    setBookID(id);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+    setModalType(null);
+    setBookID(null);
+    handleRefresh();
+  };
 
   let headers: Array<string> = books.length > 0 ? Object.keys(books[0]) : [];
   headers = headers.filter((h) => h !== 'id');
@@ -102,11 +127,36 @@ const BookTable = ({ books }: Props) => {
                 >
                   {book.author}
                 </Table.Cell>
+                <Table.Cell
+                  padding='4px 8px'
+                  whiteSpace='nowrap'
+                  overflow='hidden'
+                  textOverflow='ellipsis'
+                  textAlign={'center'}
+                >
+                  <CustomButton
+                    variant={'delete'}
+                    borderRadius={'5px'}
+                    onClick={() => {
+                      openModal(modalTypes.DELETE_BOOK, book.id);
+                    }}
+                  >
+                    Delete
+                  </CustomButton>
+                </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
         </Table.Root>
       </Box>
+      {modalType === 'DELETE_BOOK' && (
+        <DeleteBookModal
+          isOpen={isOpen}
+          type={modalType}
+          closeModal={closeModal}
+          id={bookID as string}
+        />
+      )}
     </Box>
   );
 };

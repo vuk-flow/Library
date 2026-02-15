@@ -1,15 +1,16 @@
 'use client';
-import { SelectOption } from '@/types/common';
+import { defaultSelectOption, SelectOption } from '@/types/common';
 import { createListCollection, Flex, Portal, Select } from '@chakra-ui/react';
 type Props = {
   authors: Array<string>;
   handleSelectOption: (value: string) => void;
 };
 const FilterSection = ({ authors, handleSelectOption }: Props) => {
-  const authorsOptions: Array<SelectOption> = authors.map((author) => ({
+  let authorsOptions: Array<SelectOption> = authors.map((author) => ({
     label: author,
     value: author,
   }));
+  authorsOptions = [defaultSelectOption, ...authorsOptions];
 
   const authorsListCollection = createListCollection({
     items: authorsOptions,
@@ -35,7 +36,7 @@ const FilterSection = ({ authors, handleSelectOption }: Props) => {
         </Select.Control>
         <Portal>
           <Select.Positioner>
-            <Select.Content>
+            <Select.Content backgroundColor={'#ffffff !important'}>
               {authorsListCollection.items.map((author) => (
                 <Select.Item item={author} key={author.value}>
                   {author.label}
