@@ -99,6 +99,51 @@ bookRouter.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
+// ADD A BOOK POST
+
+bookRouter.post('/add-book', async (req: Request, res: Response) => {
+  try {
+    const {
+      name,
+      publishedDate,
+      authorName,
+      authorCountry,
+      authorDateOfBirth,
+      section,
+    } = req.body;
+
+    const { libraryId } = req.query;
+
+    const bookSection = await prisma.section.create({
+      data: {
+        name: section,
+      },
+    });
+
+    const bookAuthor = await prisma.author.create({
+      data: {
+        name: authorName,
+        country: authorCountry,
+        date_of_birth: new Date(authorDateOfBirth),
+      },
+    });
+
+    const newBook = await prisma.book.create({
+      data: {
+        name: name,
+        published_date: new Date(publishedDate),
+        author_id: bookAuthor.id,
+        library_id: libraryId as string,
+        section_id: bookSection.id,
+      },
+    });
+
+    res.json({ message: `New book with id ${newBook.id} successfully added` });
+  } catch (err) {
+    console.error({ error: `Error ocurred while adding a book: ${err}` });
+  }
+});
+
 // DELETE A BOOK BY ID
 bookRouter.delete('/delete-book/:id', async (req: Request, res: Response) => {
   try {
