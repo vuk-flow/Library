@@ -3,7 +3,7 @@ import Book from '@/types/book';
 import { Table, Text, Box } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { CustomButton } from '../Button';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useModalStore } from '@/store/modalStore';
 import { ModalType, modalTypes } from '@/types/modals';
 import DeleteBookModal from '../DeleteBookModal';

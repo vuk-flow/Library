@@ -3,6 +3,7 @@ export const modalTypes = {
   DELETE_LIBRARY: 'DELETE_LIBRARY',
   EDIT_LIBRARY: 'EDIT_LIBRARY',
   DELETE_BOOK: 'DELETE_BOOK',
+  ADD_BOOK: 'ADD_BOOK',
 } as const;
 
 export type ModalType = (typeof modalTypes)[keyof typeof modalTypes];
@@ -12,6 +13,7 @@ export const modalText = {
   EDIT_LIBRARY: 'Are you sure you want to edit data?',
   ADD_LIBRARY: 'Add a new library.',
   DELETE_BOOK: 'Are you sure you want to delete the book?',
+  ADD_BOOK: 'Add your book',
 } as const;
 
 export type ModalText = (typeof modalText)[keyof typeof modalText];
@@ -21,6 +23,7 @@ export const modalTitle = {
   EDIT_LIBRARY: 'Edit the library.',
   ADD_LIBRARY: 'Add a library.',
   DELETE_BOOK: 'Delete the book.',
+  ADD_BOOK: 'Add the book.',
 } as const;
 
 export type ModalTitle = (typeof modalTitle)[keyof typeof modalTitle];
@@ -50,5 +53,9 @@ export const allModals: AllModals = {
   [modalTypes.DELETE_BOOK]: {
     title: modalTitle.DELETE_BOOK,
     text: modalText.DELETE_BOOK,
+  },
+  [modalTypes.ADD_BOOK]: {
+    title: modalTitle.ADD_BOOK,
+    text: modalText.ADD_BOOK,
   },
 };
