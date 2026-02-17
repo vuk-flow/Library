@@ -20,6 +20,12 @@ bookRouter.get('/', async (req: Request, res: Response) => {
 bookRouter.get('/by-library', async (req: Request, res: Response) => {
   try {
     const { id, filter } = req.query;
+    const page = parseInt(req.query.page as string) ?? 1;
+    const limit = parseInt(req.query.limit as string) ?? 15;
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+
     const result = await prisma.book.findMany({
       where: {
         library_id: String(id),
@@ -53,7 +59,20 @@ bookRouter.get('/by-library', async (req: Request, res: Response) => {
         booksByLibrary.push(book);
       });
 
-      res.json(booksByLibrary).status(200);
+      const paginatedBooks = booksByLibrary.slice(startIndex, endIndex);
+      const totalBooks = booksByLibrary.length;
+      const totalPages = Math.ceil(totalBooks / limit);
+
+      res
+        .json({
+          books: paginatedBooks,
+          currentPage: page,
+          totalPages,
+          totalBooks,
+          hasNext: page < totalPages,
+          hasPrev: page > 1,
+        })
+        .status(200);
     } else {
       res.json({ message: `The library with ${id} doesn't have books!` });
     }

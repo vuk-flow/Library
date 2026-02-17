@@ -44,7 +44,7 @@ const BookTable = ({ books, handleRefresh }: Props) => {
   ) : (
     <Box
       width='100%'
-      height='500px'
+      height='600px'
       mt={'20px'}
       mb='20px'
       border='1px solid'
@@ -59,12 +59,7 @@ const BookTable = ({ books, handleRefresh }: Props) => {
           width='100%'
           key={`table-${libraryId}`}
         >
-          <Table.Header
-            position='sticky'
-            top={0}
-            zIndex={10}
-            backgroundColor='white'
-          >
+          <Table.Header backgroundColor='white'>
             <Table.Row height='35px'>
               {headers.map((h) => (
                 <Table.ColumnHeader

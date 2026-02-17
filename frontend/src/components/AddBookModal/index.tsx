@@ -15,6 +15,7 @@ import Library from '@/types/library';
 import { Methods } from '@/types/methods';
 import ApiCaller from '@/utils/apiCaller';
 import { useRouter } from 'next/router';
+import { toaster } from '../ui/toaster';
 
 type Props = {
   id?: string;
@@ -45,17 +46,43 @@ const AddBookModal = ({ isOpen, type, closeModal }: Props) => {
         Methods.POST,
         data,
       );
-      const AddedLibrary: Library = response?.data satisfies Library;
+      const AddedBook: Library = response?.data satisfies Library;
+      toaster.create({
+        title: 'Success',
+        description: 'The book added successfully',
+        type: 'success',
+        duration: 4000,
+        closable: true,
+      });
+
       closeModal();
 
-      return AddedLibrary;
+      return AddedBook;
     } catch (err) {
       console.error(err);
+      toaster.create({
+        title: 'Error',
+        description: 'Failed to add book',
+        type: 'error',
+        duration: 4000,
+        closable: true,
+      });
     }
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    await AddBook(data);
+    try {
+      await AddBook(data);
+    } catch (err) {
+      console.error('Submission error:', err);
+      toaster.create({
+        title: 'Error',
+        description: 'An error occurred while submitting the form',
+        type: 'error',
+        duration: 4000,
+        closable: true,
+      });
+    }
   });
 
   return (
