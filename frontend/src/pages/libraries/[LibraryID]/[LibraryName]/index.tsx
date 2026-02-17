@@ -4,12 +4,13 @@ import { CustomButton } from '@/components/Button';
 import FilterSection from '@/components/FilterSection/FilterSection';
 import Layout from '@/components/Layout';
 import { useModalStore } from '@/store/modalStore';
-import Book from '@/types/book';
+import Book, { ResponsePaginationSchema } from '@/types/book';
 import { Methods } from '@/types/methods';
 import { ModalType, modalTypes } from '@/types/modals';
 import ApiCaller from '@/utils/apiCaller';
 import { headerColor } from '@/utils/common';
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, Text } from '@chakra-ui/react';
+import { AxiosResponse } from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -26,6 +27,12 @@ const LibraryPage = () => {
   const { modalType, setModalType } = useModalStore();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [totalPages, setTotalPages] = useState(1);
+
+  const limit = 20;
 
   const openModal = (modalType: ModalType) => {
     setIsOpen(true);
@@ -52,21 +59,31 @@ const LibraryPage = () => {
     setFilterValue(value);
   };
 
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   useEffect(() => {
     const fetchAllBooksByLibrary = async () => {
-      const result = await ApiCaller(
-        `books/by-library?id=${encodeURIComponent(libraryId as string)}&filter=`,
+      const result = (await ApiCaller(
+        `books/by-library?id=${encodeURIComponent(libraryId as string)}&page=${currentPage}&limit=${limit}`,
         Methods.GET,
-      );
+      )) as AxiosResponse<ResponsePaginationSchema>;
 
-      const booksByLibrary: Array<Book> = result?.data;
-      setAllBooks(booksByLibrary);
+      if (result.data !== null) {
+        const data = result.data;
+        const booksByLibrary: Array<Book> = data.books;
+        const totalPages: number = data.totalPages;
+        setAllBooks(booksByLibrary);
+        setTotalPages(totalPages);
+      }
     };
 
     if (libraryId) {
       fetchAllBooksByLibrary();
     }
-  }, [libraryId, refresh]);
+  }, [libraryId, refresh, currentPage]);
 
   const filteredBooks = useMemo(() => {
     if (!filterValue) return allBooks;
@@ -78,6 +95,9 @@ const LibraryPage = () => {
     const authors: Array<string> = allBooks.map((book) => book.author);
     uniqueAuthors = [...new Set(authors)];
   }
+
+  const prevIsDisabled = currentPage === 1;
+  const nextIsDisabled = currentPage === totalPages;
 
   return (
     <Flex width={'100%'} height={'100%'} flexDir={'column'}>
@@ -144,6 +164,54 @@ const LibraryPage = () => {
           type={modalType}
         />
       )}
+      <HStack spaceX={5} justify='center' mt={6} mb={'10px'}>
+        <CustomButton
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={prevIsDisabled}
+          variant={prevIsDisabled ? 'disabled' : 'add'}
+          borderRadius={'10px'}
+        >
+          Previous
+        </CustomButton>
+
+        <HStack>
+          {[...Array(totalPages)].map((_, index) => {
+            const pageNumber = index + 1;
+            if (
+              pageNumber === 1 ||
+              pageNumber === totalPages ||
+              (pageNumber >= currentPage - 2 && pageNumber <= currentPage + 2)
+            ) {
+              return (
+                <Button
+                  key={pageNumber}
+                  onClick={() => handlePageChange(pageNumber)}
+                  colorScheme={currentPage === pageNumber ? 'blue' : 'gray'}
+                  variant={currentPage === pageNumber ? 'solid' : 'ghost'}
+                  size='sm'
+                >
+                  {pageNumber}
+                </Button>
+              );
+            } else if (
+              pageNumber === currentPage - 3 ||
+              pageNumber === currentPage + 3
+            ) {
+              return <Text key={pageNumber}>...</Text>;
+            }
+            return null;
+          })}
+        </HStack>
+
+        <CustomButton
+          borderRadius={'10px'}
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={nextIsDisabled}
+          variant={nextIsDisabled ? 'disabled' : 'add'}
+        >
+          Next
+        </CustomButton>
+      </HStack>
     </Flex>
   );
 };

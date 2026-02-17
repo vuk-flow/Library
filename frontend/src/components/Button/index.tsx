@@ -45,6 +45,15 @@ export const buttonRecipe = defineRecipe({
         display: 'flex',
         padding: '2px',
       },
+      disabled: {
+        backgroundColor: '#706c6c',
+        color: 'white',
+        width: '100px',
+        height: 'auto',
+        border: '1px solid #ffffff',
+        display: 'flex',
+        padding: '2px',
+      },
     },
     size: {
       sm: {
