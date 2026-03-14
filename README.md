@@ -42,7 +42,7 @@ LibraryProject/
 │   │   ├── routes/          # library, author, book
 │   │   ├── schemas/         # Validation/types
 │   │   └── index.ts         # App entry, CORS, mount routes
-│   ├── Dockerfile
+│   ├── Dockerfile (optional)
 │   └── package.json
 ├── frontend/                # Next.js app
 │   ├── src/
@@ -51,8 +51,9 @@ LibraryProject/
 │   │   ├── store/           # Zustand (modalStore)
 │   │   ├── types/           # TS types
 │   │   └── utils/           # apiCaller, common
-│   ├── Dockerfile
+│   ├── Dockerfile (optional)
 │   └── package.json
+|--- docker-compose.yaml (optional)
 └── README.md
 ```
 
