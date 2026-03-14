@@ -1,4 +1,4 @@
-# Biblioteka (Library Management System)
+# Library (Library Management System)
 
 A full-stack web application for managing libraries and their book collections. Users can create libraries, add/edit/delete libraries, and within each library manage books (add, delete, filter by author, pagination).
 
