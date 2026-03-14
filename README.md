@@ -53,7 +53,6 @@ LibraryProject/
 │   │   └── utils/           # apiCaller, common
 │   ├── Dockerfile
 │   └── package.json
-├── docker-compose.yml       # db, backend, frontend services
 └── README.md
 ```
 
